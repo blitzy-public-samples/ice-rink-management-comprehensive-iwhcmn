@@ -22,7 +22,7 @@
     "@material-ui/icons": "^4.11.3",
     "formik": "^2.2.9",
     "yup": "^0.32.11",
-    "date-fns": "^2.29.3",
+    "date-fns": "^4.1.0",
     "react-big-calendar": "^1.5.0",
     "recharts": "^2.1.16"
   },

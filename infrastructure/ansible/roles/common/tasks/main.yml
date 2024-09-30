@@ -1,0 +1,35 @@
+---
+# Common tasks for all servers
+
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+  become: true
+
+- name: Install common packages
+  apt:
+    name:
+      - curl
+      - vim
+      - git
+      - htop
+      - ntp
+    state: present
+  become: true
+
+- name: Set timezone
+  timezone:
+    name: UTC
+  become: true
+
+- name: Ensure NTP is running and enabled
+  service:
+    name: ntp
+    state: started
+    enabled: true
+  become: true
+
+# Human tasks (commented)
+# TODO: Review and adjust the list of common packages to be installed
+# TODO: Confirm if UTC is the desired timezone for all servers

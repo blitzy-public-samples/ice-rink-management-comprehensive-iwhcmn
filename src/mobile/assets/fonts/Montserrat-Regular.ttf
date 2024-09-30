@@ -1,0 +1,40 @@
+/* 
+This file should contain the binary data for the Montserrat-Regular.ttf font.
+As an AI language model, I cannot generate or provide the actual binary content of the font file.
+
+File description:
+- Name: Montserrat-Regular.ttf
+- Type: TrueType Font (TTF)
+- Usage: Regular weight font for the mobile application
+- Part of: Typography system defined in the technical specification
+
+Important notes:
+1. Ensure that this font file is properly licensed for use in the application.
+2. This font should be used in conjunction with other weights of Montserrat as specified in the design system.
+
+Pending human tasks:
+1. [Required] Verify the licensing terms for Montserrat font usage in the mobile application.
+2. [Required] Ensure that the font file is the correct version and weight as specified in the design system.
+
+To use this font in the React Native application:
+1. Ensure the font file is placed in the correct directory (src/mobile/assets/fonts/).
+2. Link the font file to the project using react-native link or manually updating the necessary build files.
+3. Use the font in your styles by referencing 'Montserrat-Regular' as the fontFamily.
+
+Example usage in a React Native component:
+
+import { StyleSheet, Text } from 'react-native';
+
+const MyComponent = () => (
+  <Text style={styles.text}>Hello, World!</Text>
+);
+
+const styles = StyleSheet.create({
+  text: {
+    fontFamily: 'Montserrat-Regular',
+    fontSize: 16,
+  },
+});
+
+Remember to test the font rendering on both iOS and Android devices to ensure proper implementation.
+*/

@@ -1,0 +1,29 @@
+This file should contain the binary data for the Open Sans Bold font.
+As an AI language model, I cannot generate or provide the actual font file.
+Please ensure you download the official Open Sans Bold font file from the Google Fonts website
+or another authorized source and place it in this location.
+
+File: OpenSans-Bold.ttf
+Description: Open Sans Bold font file for the Ice Rink Management and Booking System mobile application.
+Usage:
+- Used in the mobile app for bold text styling
+- Applied to headings, buttons, and other UI elements requiring emphasis
+- Part of the consistent typography system across the mobile application
+
+Font Details:
+- Family: Open Sans
+- Weight: Bold
+- Style: Normal
+
+Licensing: Open Font License (OFL)
+Source: https://fonts.google.com/specimen/Open+Sans
+
+Implementation Notes:
+- Ensure the font is properly linked in the mobile app's font configuration
+- Use this font for bold text in accordance with the app's design system
+- Verify that the font renders correctly on various mobile devices and screen sizes
+
+Pending Human Tasks:
+- Verify that the Open Sans Bold font file is the latest version and properly licensed for use in the mobile application
+- Ensure that the font file size is optimized for mobile use without compromising quality
+*/

@@ -1,0 +1,66 @@
+# Global configuration
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+
+# Rule files
+rule_files:
+  - "/etc/prometheus/rules/*.rules"
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # API monitoring
+  - job_name: api
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["api:3000"]
+
+  # Backend monitoring
+  - job_name: backend
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["backend:4000"]
+
+  # Frontend monitoring
+  - job_name: frontend
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["frontend:80"]
+
+  # Node exporter for system metrics
+  - job_name: node-exporter
+    static_configs:
+      - targets: ["node-exporter:9100"]
+
+  # cAdvisor for container metrics
+  - job_name: cadvisor
+    static_configs:
+      - targets: ["cadvisor:8080"]
+
+  # PostgreSQL exporter
+  - job_name: postgres
+    static_configs:
+      - targets: ["postgres-exporter:9187"]
+
+  # Redis exporter
+  - job_name: redis
+    static_configs:
+      - targets: ["redis-exporter:9121"]
+
+# Human tasks (commented)
+# TODO: Review and adjust scrape intervals based on system performance and requirements
+# TODO: Set up alerting rules in /etc/prometheus/rules/*.rules
+# TODO: Verify that all service endpoints are correct and accessible
+# TODO: Implement service discovery for dynamic environments if applicable

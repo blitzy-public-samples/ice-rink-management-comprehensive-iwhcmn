@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: ice-rink-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ice-rink-frontend
+  template:
+    metadata:
+      labels:
+        app: ice-rink-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: {{ DOCKER_REGISTRY }}/ice-rink-frontend:{{ IMAGE_TAG }}
+          ports:
+            - containerPort: 3000
+          env:
+            - name: API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: API_URL
+            - name: NODE_ENV
+              value: production
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
+# Human tasks:
+# - Verify and set the correct Docker registry URL for the frontend image
+# - Ensure the frontend-config ConfigMap is created with the correct API_URL
+# - Adjust resource limits and requests based on actual application requirements and available cluster resources
+# - Implement a /health endpoint in the frontend application for liveness and readiness probes

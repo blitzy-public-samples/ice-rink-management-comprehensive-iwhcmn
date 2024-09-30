@@ -1,0 +1,118 @@
+# GitLab CI/CD Pipeline for Ice Rink Management and Booking System
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+# Cache dependencies to speed up builds
+cache:
+  paths:
+    - node_modules/
+
+# Build stage
+build:
+  stage: build
+  image: node:14
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+
+# Test stage
+test:
+  stage: test
+  image: node:14
+  script:
+    - npm ci
+    - npm run test
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+
+# Linting
+lint:
+  stage: test
+  image: node:14
+  script:
+    - npm ci
+    - npm run lint
+
+# Security scan
+security_scan:
+  stage: test
+  image: docker:stable
+  services:
+    - docker:dind
+  script:
+    - docker run --rm -v $(pwd):/app owasp/zap2docker-stable zap-baseline.py -t http://your-target-url
+
+# Deploy to staging
+deploy_staging:
+  stage: deploy
+  image: 
+    name: amazon/aws-cli
+    entrypoint: [""]
+  script:
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws configure set region $AWS_DEFAULT_REGION
+    - aws s3 sync dist/ s3://$S3_BUCKET_STAGING/
+    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID_STAGING --paths "/*"
+  only:
+    - develop
+
+# Deploy to production
+deploy_production:
+  stage: deploy
+  image: 
+    name: amazon/aws-cli
+    entrypoint: [""]
+  script:
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws configure set region $AWS_DEFAULT_REGION
+    - aws s3 sync dist/ s3://$S3_BUCKET_PRODUCTION/
+    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID_PRODUCTION --paths "/*"
+  only:
+    - main
+  when: manual
+
+# Docker build and push
+docker_build:
+  stage: build
+  image: docker:stable
+  services:
+    - docker:dind
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  only:
+    - main
+    - develop
+
+# Kubernetes deployment
+k8s_deploy:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - kubectl config set-cluster k8s --server="$KUBE_URL" --insecure-skip-tls-verify=true
+    - kubectl config set-credentials admin --token="$KUBE_TOKEN"
+    - kubectl config set-context default --cluster=k8s --user=admin
+    - kubectl config use-context default
+    - sed -i "s|{{IMAGE}}|$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA|g" kubernetes/deployment.yaml
+    - kubectl apply -f kubernetes/deployment.yaml
+  only:
+    - main
+    - develop
+
+# Notify on failure
+on_failure:
+  stage: .post
+  script:
+    - 'curl -X POST -H "Content-Type: application/json" -d "{\"text\":\"Pipeline failed for $CI_PROJECT_NAME - $CI_COMMIT_REF_NAME\"}" $SLACK_WEBHOOK_URL'
+  when: on_failure

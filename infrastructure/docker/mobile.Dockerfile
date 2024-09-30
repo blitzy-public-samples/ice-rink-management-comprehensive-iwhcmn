@@ -1,5 +1,5 @@
 # Stage 1: Builder
-FROM node:14-alpine AS builder
+FROM node:22-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY src/mobile ./
 RUN npm run build
 
 # Stage 2: Production
-FROM node:14-alpine
+FROM node:22-alpine
 
 # Set working directory
 WORKDIR /app

@@ -1,5 +1,5 @@
 # Build stage
-FROM node:14-alpine AS build
+FROM node:22-alpine AS build
 
 # Set working directory
 WORKDIR /app
@@ -20,7 +20,7 @@ RUN npm run build
 RUN npm prune --production
 
 # Production stage
-FROM node:14-alpine AS production
+FROM node:22-alpine AS production
 
 # Set working directory
 WORKDIR /app

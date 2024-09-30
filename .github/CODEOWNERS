@@ -1,0 +1,69 @@
+# Each line is a file pattern followed by one or more owners.
+# For more information, see: https://help.github.com/articles/about-code-owners/
+
+# These owners will be the default owners for everything in the repo.
+# Unless a later match takes precedence, these owners will be requested for review when someone opens a pull request.
+* @global-owner1 @global-owner2
+
+# Frontend code
+/src/frontend/ @frontend-team
+
+# Backend code
+/src/backend/ @backend-team
+
+# API code
+/src/api/ @api-team
+
+# Mobile app code
+/src/mobile/ @mobile-team
+
+# Shared code
+/src/shared/ @frontend-team @backend-team @api-team @mobile-team
+
+# Infrastructure code
+/infrastructure/ @devops-team
+
+# CI/CD configuration
+/.github/workflows/ @devops-team
+
+# Documentation
+/*.md @docs-team
+
+# Package configuration
+package.json @lead-developer
+yarn.lock @lead-developer
+
+# Security-related files
+/src/api/middleware/auth.ts @security-team
+/src/frontend/src/utils/auth.ts @security-team
+/src/mobile/src/utils/auth.ts @security-team
+
+# Database migrations
+/src/backend/src/db/migrations/ @database-team
+
+# Test files
+/src/*/tests/ @qa-team
+
+# Configuration files
+*.config.js @lead-developer
+*.config.ts @lead-developer
+.env.example @devops-team
+
+# Dockerfiles
+Dockerfile* @devops-team
+docker-compose.yml @devops-team
+
+# Kubernetes manifests
+/infrastructure/kubernetes/ @kubernetes-team
+
+# Terraform files
+/infrastructure/terraform/ @infrastructure-team
+
+# Monitoring and logging
+/infrastructure/monitoring/ @monitoring-team
+
+# Scripts
+/infrastructure/scripts/ @devops-team
+
+# Ansible playbooks
+/infrastructure/ansible/ @devops-team

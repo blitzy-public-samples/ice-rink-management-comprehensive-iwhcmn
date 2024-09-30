@@ -1,0 +1,5 @@
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Sitemap: https://www.icerinkbooking.com/sitemap.xml

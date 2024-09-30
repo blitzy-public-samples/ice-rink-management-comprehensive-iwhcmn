@@ -1,0 +1,63 @@
+---
+- name: Setup Ice Rink Management System Servers
+  hosts: all
+  become: true
+  tasks:
+    - name: Update and upgrade apt packages
+      apt:
+        upgrade: yes
+        update_cache: yes
+
+    - name: Install required packages
+      apt:
+        name:
+          - nodejs
+          - npm
+          - docker.io
+          - docker-compose
+          - postgresql-client
+          - redis-tools
+        state: present
+
+    - name: Install PM2 globally
+      npm:
+        name: pm2
+        global: yes
+
+    - name: Create application directory
+      file:
+        path: /opt/ice-rink-system
+        state: directory
+        mode: '0755'
+
+    - name: Copy Docker Compose file
+      copy:
+        src: files/docker-compose.yml
+        dest: /opt/ice-rink-system/docker-compose.yml
+
+    - name: Start Docker services
+      docker_compose:
+        project_src: /opt/ice-rink-system
+        state: present
+
+    - name: Configure firewall
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - "22"
+        - "80"
+        - "443"
+        - "3000"
+        - "5432"
+        - "6379"
+
+    - name: Enable UFW
+      ufw:
+        state: enabled
+
+# Human tasks:
+# - Review and adjust the list of installed packages based on specific project requirements
+# - Ensure the Docker Compose file (docker-compose.yml) is created and placed in the correct location
+# - Verify and adjust firewall rules based on the actual ports used by the application

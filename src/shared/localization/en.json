@@ -1,0 +1,59 @@
+{
+  "common": {
+    "appName": "Ice Rink Management System",
+    "welcome": "Welcome to the Ice Rink Management System",
+    "login": "Log In",
+    "logout": "Log Out",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "navigation": {
+    "home": "Home",
+    "bookings": "Bookings",
+    "rinks": "Rinks",
+    "equipment": "Equipment",
+    "users": "Users",
+    "reports": "Reports"
+  },
+  "bookings": {
+    "newBooking": "New Booking",
+    "myBookings": "My Bookings",
+    "bookingDetails": "Booking Details",
+    "date": "Date",
+    "time": "Time",
+    "duration": "Duration",
+    "price": "Price",
+    "status": "Status",
+    "cancel": "Cancel Booking",
+    "modify": "Modify Booking"
+  },
+  "rinks": {
+    "availableRinks": "Available Rinks",
+    "rinkDetails": "Rink Details",
+    "capacity": "Capacity",
+    "schedule": "Schedule",
+    "maintenance": "Maintenance"
+  },
+  "equipment": {
+    "availableEquipment": "Available Equipment",
+    "rentEquipment": "Rent Equipment",
+    "returnEquipment": "Return Equipment",
+    "equipmentDetails": "Equipment Details"
+  },
+  "users": {
+    "userManagement": "User Management",
+    "createUser": "Create User",
+    "editUser": "Edit User",
+    "deleteUser": "Delete User",
+    "userDetails": "User Details",
+    "role": "Role"
+  },
+  "errors": {
+    "generalError": "An error occurred. Please try again.",
+    "notFound": "Page not found",
+    "unauthorized": "Unauthorized access",
+    "invalidInput": "Invalid input. Please check your information and try again."
+  }
+}

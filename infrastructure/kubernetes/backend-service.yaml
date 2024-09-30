@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  labels:
+    app: ice-rink-backend
+spec:
+  selector:
+    app: ice-rink-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
+
+# Human Tasks:
+# TODO: Verify if the service type (ClusterIP) is appropriate for the deployment strategy
+# TODO: Ensure the selector matches the labels in the backend deployment
+# TODO: Confirm if additional ports need to be exposed for the backend service

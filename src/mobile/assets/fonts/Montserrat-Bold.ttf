@@ -1,0 +1,16 @@
+/* 
+This file should contain the binary data for the Montserrat-Bold TrueType Font.
+The actual font data cannot be generated and should be obtained from the official source.
+
+Description: Montserrat Bold font file for use in the mobile application
+Type: asset
+Format: TrueType Font (.ttf)
+Usage: Used for bold text styling in the mobile app interface
+License: Open Font License (OFL)
+Version: The specific version of the Montserrat font included in the project
+Source: https://fonts.google.com/specimen/Montserrat
+
+Human Tasks:
+- TODO (Optional): Verify that the font file is the latest version and matches the design specifications
+- TODO (Required): Ensure that the font license is properly attributed in the application
+*/

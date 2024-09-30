@@ -1,0 +1,18 @@
+This file contains the OpenSans Regular TrueType Font for the Ice Rink Management and Booking System mobile application.
+
+File Type: TrueType Font
+Font Family: Open Sans
+Font Weight: Regular
+Format: TTF
+
+Usage: This font file is used for rendering text in the mobile application, providing a consistent and readable typeface across different screens and devices.
+
+Related Files:
+- src/mobile/assets/fonts/OpenSans-Bold.ttf
+
+Human Tasks:
+- [Optional] Verify that the font file is the correct version and has the necessary character sets for the application's requirements.
+- [Required] Ensure that the usage of this font complies with its license agreement.
+
+Note: This is a binary file containing font data. The actual font file should be placed here instead of this comment.
+*/

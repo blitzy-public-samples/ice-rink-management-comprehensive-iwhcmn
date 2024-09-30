@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ice-rink-system-config
+  namespace: default
+data:
+  API_URL: "http://api-service:3000"
+  FRONTEND_URL: "https://icerink.example.com"
+  BACKEND_URL: "http://backend-service:4000"
+  LOG_LEVEL: "info"
+  MAX_BOOKING_DAYS_IN_ADVANCE: "30"
+  MAINTENANCE_WINDOW: "01:00-03:00"
+  TIMEZONE: "UTC"
+  FEATURE_FLAGS: "{\"enableNewBookingSystem\": true, \"enableEquipmentRental\": true}"
+
+---
+# Human Tasks:
+# - Review and update the API_URL, FRONTEND_URL, and BACKEND_URL values based on the actual service names and ports (Critical)
+# - Adjust the LOG_LEVEL based on the environment (e.g., 'debug' for development, 'info' for production) (Required)
+# - Verify the MAX_BOOKING_DAYS_IN_ADVANCE value aligns with the business requirements (Required)
+# - Confirm the MAINTENANCE_WINDOW is set to an appropriate time for the target timezone (Required)
+# - Update the TIMEZONE if the system should use a specific timezone other than UTC (Optional)
+# - Review and adjust the FEATURE_FLAGS based on the current state of feature development (Required)

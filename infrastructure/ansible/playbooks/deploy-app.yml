@@ -1,0 +1,49 @@
+---
+- name: Deploy Ice Rink Management and Booking System
+  hosts: all
+  become: true
+  vars_files:
+    - ../vars/main.yml
+
+  roles:
+    - common
+    - nodejs
+    - nginx
+    - app
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install required packages
+      apt:
+        name:
+          - git
+          - build-essential
+        state: present
+
+    - name: Clone application repository
+      git:
+        repo: "{{ app_repo_url }}"
+        version: "{{ app_version }}"
+        dest: "{{ app_directory }}"
+
+    - name: Install application dependencies
+      npm:
+        path: "{{ app_directory }}"
+
+    - name: Build application
+      command: npm run build
+      args:
+        chdir: "{{ app_directory }}"
+
+    - name: Start application
+      systemd:
+        name: ice-rink-app
+        state: restarted
+
+  # Human tasks (commented out as requested)
+  # - Define the actual repository URL for the application
+  # - Create and configure the systemd service file for the application
+  # - Set up environment-specific variables in ../vars/main.yml

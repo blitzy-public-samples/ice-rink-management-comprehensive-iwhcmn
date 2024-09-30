@@ -1,0 +1,114 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY = 'your-docker-registry.com'
+        DOCKER_CREDENTIALS = credentials('docker-credentials-id')
+        AWS_CREDENTIALS = credentials('aws-credentials-id')
+        KUBE_CONFIG = credentials('kubernetes-config-id')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build and Test API') {
+            steps {
+                dir('src/api') {
+                    sh 'npm install'
+                    sh 'npm run lint'
+                    sh 'npm test'
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Build and Test Frontend') {
+            steps {
+                dir('src/frontend') {
+                    sh 'npm install'
+                    sh 'npm run lint'
+                    sh 'npm test'
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Build and Test Backend') {
+            steps {
+                dir('src/backend') {
+                    sh 'npm install'
+                    sh 'npm run lint'
+                    sh 'npm test'
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                script {
+                    def apiImage = docker.build("${DOCKER_REGISTRY}/ice-rink-api:${env.BUILD_NUMBER}", "-f infrastructure/docker/api.Dockerfile .")
+                    def frontendImage = docker.build("${DOCKER_REGISTRY}/ice-rink-frontend:${env.BUILD_NUMBER}", "-f infrastructure/docker/frontend.Dockerfile .")
+                    def backendImage = docker.build("${DOCKER_REGISTRY}/ice-rink-backend:${env.BUILD_NUMBER}", "-f infrastructure/docker/backend.Dockerfile .")
+
+                    docker.withRegistry("https://${DOCKER_REGISTRY}", DOCKER_CREDENTIALS) {
+                        apiImage.push()
+                        frontendImage.push()
+                        backendImage.push()
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Staging') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                script {
+                    withCredentials([file(credentialsId: KUBE_CONFIG, variable: 'KUBECONFIG')]) {
+                        sh """
+                            kubectl --kubeconfig=\$KUBECONFIG set image deployment/api-deployment api=${DOCKER_REGISTRY}/ice-rink-api:${env.BUILD_NUMBER}
+                            kubectl --kubeconfig=\$KUBECONFIG set image deployment/frontend-deployment frontend=${DOCKER_REGISTRY}/ice-rink-frontend:${env.BUILD_NUMBER}
+                            kubectl --kubeconfig=\$KUBECONFIG set image deployment/backend-deployment backend=${DOCKER_REGISTRY}/ice-rink-backend:${env.BUILD_NUMBER}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Production') {
+            when {
+                branch 'main'
+            }
+            steps {
+                input "Deploy to production?"
+                script {
+                    withCredentials([file(credentialsId: KUBE_CONFIG, variable: 'KUBECONFIG')]) {
+                        sh """
+                            kubectl --kubeconfig=\$KUBECONFIG set image deployment/api-deployment api=${DOCKER_REGISTRY}/ice-rink-api:${env.BUILD_NUMBER}
+                            kubectl --kubeconfig=\$KUBECONFIG set image deployment/frontend-deployment frontend=${DOCKER_REGISTRY}/ice-rink-frontend:${env.BUILD_NUMBER}
+                            kubectl --kubeconfig=\$KUBECONFIG set image deployment/backend-deployment backend=${DOCKER_REGISTRY}/ice-rink-backend:${env.BUILD_NUMBER}
+                        """
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            slackSend(color: '#36a64f', message: "Deployment successful! Build ${env.BUILD_NUMBER}")
+        }
+        failure {
+            slackSend(color: '#ff0000', message: "Deployment failed! Build ${env.BUILD_NUMBER}")
+        }
+        always {
+            cleanWs()
+        }
+    }
+}

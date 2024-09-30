@@ -1,0 +1,55 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/src/api"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "production"
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "npm"
+    directory: "/src/frontend"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "production"
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "npm"
+    directory: "/src/backend"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "production"
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "npm"
+    directory: "/src/mobile"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "production"
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "docker"
+    directory: "/infrastructure/docker"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "terraform"
+    directory: "/infrastructure/terraform"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+# Human tasks:
+# - Review and adjust the Dependabot configuration based on project-specific needs and preferences
+# - Consider adding version constraints or ignore certain dependencies if needed

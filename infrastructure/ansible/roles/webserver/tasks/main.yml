@@ -1,0 +1,73 @@
+---
+# Ansible tasks file for configuring the webserver role in the Ice Rink Management and Booking System infrastructure
+
+# Install required packages
+- name: Install required packages
+  become: true
+  apt:
+    name:
+      - nginx
+      - certbot
+      - python3-certbot-nginx
+    state: present
+    update_cache: true
+
+# Ensure Nginx is running and enabled
+- name: Ensure Nginx is running and enabled
+  become: true
+  service:
+    name: nginx
+    state: started
+    enabled: true
+
+# Copy Nginx configuration file
+- name: Copy Nginx configuration file
+  become: true
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reload Nginx
+
+# Copy SSL parameters file
+- name: Copy SSL parameters file
+  become: true
+  template:
+    src: ssl-params.conf.j2
+    dest: /etc/nginx/snippets/ssl-params.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reload Nginx
+
+# Set up Let's Encrypt certificate
+- name: Set up Let's Encrypt certificate
+  become: true
+  command: certbot --nginx -d {{ domain_name }} --non-interactive --agree-tos -m {{ admin_email }}
+  args:
+    creates: "/etc/letsencrypt/live/{{ domain_name }}"
+
+# Set up Certbot auto-renewal
+- name: Set up Certbot auto-renewal
+  become: true
+  cron:
+    name: "Certbot renewal"
+    job: "/usr/bin/certbot renew --quiet"
+    minute: "0"
+    hour: "2"
+    day: "1"
+    month: "*"
+
+# Handlers section
+handlers:
+  - name: Reload Nginx
+    become: true
+    service:
+      name: nginx
+      state: reloaded
+
+# Human tasks (commented)
+# TODO: Review and customize Nginx configuration templates (nginx.conf.j2 and ssl-params.conf.j2)
+# TODO: Provide values for variables: domain_name and admin_email

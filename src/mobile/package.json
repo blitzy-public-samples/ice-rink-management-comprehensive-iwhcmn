@@ -1,0 +1,79 @@
+{
+  "name": "ice-rink-management-mobile-app",
+  "version": "1.0.0",
+  "description": "Mobile application for the Ice Rink Management and Booking System",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-native": "^0.66.0",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/stack": "^6.0.11",
+    "@react-navigation/bottom-tabs": "^6.0.9",
+    "redux": "^4.1.1",
+    "react-redux": "^7.2.5",
+    "@reduxjs/toolkit": "^1.6.2",
+    "axios": "^0.24.0",
+    "moment": "^2.29.1",
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-reanimated": "^2.2.3",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.8.0",
+    "@react-native-async-storage/async-storage": "^1.15.9",
+    "react-native-dotenv": "^3.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/runtime": "^7.15.4",
+    "@react-native-community/eslint-config": "^3.0.1",
+    "@types/react": "^17.0.30",
+    "@types/react-native": "^0.65.8",
+    "@types/jest": "^27.0.2",
+    "babel-jest": "^27.3.1",
+    "eslint": "^7.32.0",
+    "jest": "^27.3.1",
+    "metro-react-native-babel-preset": "^0.66.2",
+    "react-test-renderer": "17.0.2",
+    "typescript": "^4.4.4"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-organization/ice-rink-management-system.git"
+  },
+  "author": "Your Organization",
+  "license": "UNLICENSED"
+}
+```
+
+This `package.json` file includes all the necessary dependencies, development dependencies, scripts, and metadata for the Ice Rink Management and Booking System mobile application. Here are some key points about the configuration:
+
+1. The main dependencies include React Native and its ecosystem libraries, navigation libraries, state management with Redux, and utility libraries like Axios and Moment.
+
+2. Development dependencies are set up for TypeScript support, testing with Jest, and linting with ESLint.
+
+3. Scripts are defined for starting the development server, running the app on Android and iOS, testing, and linting.
+
+4. The version is set to 1.0.0 as specified in the JSON representation.
+
+5. The `private` field is set to `true` to prevent accidental publication to npm.
+
+6. A placeholder repository URL is included, which should be updated to the actual repository URL.
+
+7. The license is set to "UNLICENSED" as no specific license was provided in the specification.
+
+Comments for human tasks:
+```json
+  // TODO: Human Tasks
+  // 1. Update version number before each release (Required)
+  // 2. Ensure all required dependencies are listed and up to date (Critical)

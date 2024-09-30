@@ -1,0 +1,67 @@
+---
+# Ansible tasks for setting up and managing the PostgreSQL database for the Ice Rink Management and Booking System
+
+- name: Install PostgreSQL
+  apt:
+    name: postgresql
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: Ensure PostgreSQL is running
+  systemd:
+    name: postgresql
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Create database
+  postgresql_db:
+    name: "{{ ice_rink_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres
+
+- name: Create database user
+  postgresql_user:
+    name: "{{ ice_rink_db_user }}"
+    password: "{{ ice_rink_db_password }}"
+    role_attr_flags: "CREATEDB,NOSUPERUSER"
+  become: yes
+  become_user: postgres
+
+- name: Grant database permissions
+  postgresql_privs:
+    type: database
+    database: "{{ ice_rink_db_name }}"
+    roles: "{{ ice_rink_db_user }}"
+    privs: ALL
+    state: present
+  become: yes
+  become_user: postgres
+
+- name: Configure PostgreSQL for remote connections
+  lineinfile:
+    path: /etc/postgresql/12/main/postgresql.conf
+    regexp: "^#?listen_addresses"
+    line: "listen_addresses = '*'"
+  become: yes
+  notify: Restart PostgreSQL
+
+- name: Allow remote connections to PostgreSQL
+  lineinfile:
+    path: /etc/postgresql/12/main/pg_hba.conf
+    line: "host    all    all    0.0.0.0/0    md5"
+  become: yes
+  notify: Restart PostgreSQL
+
+- name: Restart PostgreSQL
+  systemd:
+    name: postgresql
+    state: restarted
+  become: yes
+
+# Human tasks (commented)
+# TODO: Review and adjust PostgreSQL version and configuration paths if necessary
+# TODO: Ensure proper security measures are in place for remote database access
+# TODO: Set up regular database backups

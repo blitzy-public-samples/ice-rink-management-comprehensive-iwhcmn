@@ -1,0 +1,22 @@
+Key specifications:
+1. Format: ICO (Microsoft Icon)
+2. Recommended sizes: 16x16, 32x32, 48x48 pixels
+3. Color depth: 32-bit (16.7 million colors with transparency)
+
+Best practices:
+1. Use a simplified version of the Ice Rink Management and Booking System logo
+2. Ensure the icon is recognizable even at small sizes
+3. Include multiple sizes within the ICO file for better display across different devices and browsers
+
+Usage:
+This file should be placed in the public directory of the frontend application to ensure it's accessible by web browsers.
+
+Related files:
+- src/frontend/public/manifest.json
+- src/frontend/public/robots.txt
+
+Human tasks required:
+1. Design and create the favicon.ico file according to the brand guidelines of the Ice Rink Management and Booking System (Required)
+2. Ensure the favicon.ico file includes multiple sizes (16x16, 32x32, 48x48) for optimal display across different browsers and devices (Required)
+
+Note: The actual content of this file should be a binary ICO file created using appropriate image editing software or online favicon generators. The file should then be placed at this location in the project structure.

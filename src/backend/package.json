@@ -20,7 +20,7 @@
     "aws-sdk": "^2.1048.0",
     "stripe": "^8.195.0",
     "@sendgrid/mail": "^7.6.0",
-    "twilio": "^3.72.0",
+    "twilio": "^5.3.3",
     "@googlemaps/google-maps-services-js": "^3.3.16",
     "firebase-admin": "^10.0.0",
     "@sentry/node": "^6.16.1"
